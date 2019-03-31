@@ -6,6 +6,8 @@ const login = (state = initState, action) => {
   switch (action.type) {
     case 'LOG_IN_SUCCESS':
       return true
+    case 'LOG_OUT':
+      return false
     default:
       return state
   }

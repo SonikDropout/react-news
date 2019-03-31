@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Form, Button, Row, Col, Card } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import login from '../store/actions/login'
 
-function Login({ logUserIn, history }) {
+function Login({ logUserIn, history, location }) {
 
   const [message, setMessage] = useState('');
 
@@ -12,8 +13,8 @@ function Login({ logUserIn, history }) {
     const password = event.target.elements.password.value;
     if (username === 'Admin' && password === '12345') {
       logUserIn()
-      localStorage.setItem('isLogedIn', 'true')
-      history.push('/profile')
+      const { from } = location.state || { from: { pathname: '/' } }
+      history.push(from)
     } else {
       setMessage('Имя пользователя или пароль введены не верно')
     }
@@ -25,6 +26,7 @@ function Login({ logUserIn, history }) {
         <Card>
           <Card.Body>
             <Form onSubmit={handleSubmit}>
+              <h2 className="text-center">Log In</h2>
               <p className="text-danger">{message}</p>
               <Form.Group controlId="formBasicEmail">
                 <Form.Label>User name</Form.Label>
@@ -48,7 +50,7 @@ function Login({ logUserIn, history }) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logUserIn: () => dispatch({ type: 'LOG_IN_SUCCESS' })
+    logUserIn: () => dispatch(login())
   }
 }
 
